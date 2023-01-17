@@ -1,4 +1,4 @@
-import {Index} from "../components/Header";
+import {Index} from "../../components/Header";
 
 export function History() {
     return (
