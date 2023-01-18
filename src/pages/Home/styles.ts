@@ -53,7 +53,7 @@ export const Separator = styled.div`
   justify-content: center;
 `;
 
-export const ButtonContainer = styled.button`
+export const ButtonStartContainer = styled.button`
   width: 100%;
   border: 0;
   padding: 1rem;
@@ -73,6 +73,34 @@ export const ButtonContainer = styled.button`
   
   &:not(:disabled):hover {
     background: ${props => props.theme["green-700"]};
+  }
+  
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+`;
+
+export const ButtonStopContainer = styled.button`
+  width: 100%;
+  border: 0;
+  padding: 1rem;
+  border-radius: 8px;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  gap: 0.5rem;
+  font-weight: bold;
+  
+  cursor: pointer;
+  
+  background: ${props => props.theme["red-500"]};
+  color: ${props => props.theme["gray-100"]};
+  
+  &:not(:disabled):hover {
+    background: ${props => props.theme["red-700"]};
   }
   
   &:disabled {

@@ -1,6 +1,7 @@
-import {Play} from "phosphor-react";
+import {HandPalm, Play} from "phosphor-react";
 import {
-    ButtonContainer,
+    ButtonStartContainer,
+    ButtonStopContainer,
     CountDownContainer,
     FormContainer,
     HomeContainer,
@@ -25,7 +26,8 @@ interface CycleProps {
     id: string,
     task: string,
     minutes: number,
-    startDate: Date
+    startDate: Date,
+    interruptDate?: Date
 }
 
 export function Home() {
@@ -95,6 +97,19 @@ export function Home() {
 
     }, [minutes, seconds, activeCycle])
 
+    function handleInterruptCycle(){
+        setActivateCycleId(null)
+
+        setCycles(
+            cycles.map((cycle) => {
+                if (cycle.id === activateCycleId) {
+                    return {...cycle, interruptDate: new Date()}
+                } else {
+                    return cycle
+                }
+            }))
+    }
+
     return (
         <HomeContainer>
             <form onSubmit={handleSubmit(handleFormSubmit)}>
@@ -106,6 +121,7 @@ export function Home() {
                         placeholder="Dê um nome para o seu projeto"
                         list="suggestions"
                         {...register('task')}
+                        disabled={!!activeCycle}
                     />
 
                     <datalist id="suggestions">
@@ -123,6 +139,7 @@ export function Home() {
                         min={5}
                         max={60}
                         {...register('minutes', {valueAsNumber: true})}
+                        disabled={!!activeCycle}
                     />
                     <span>
                         minutos
@@ -138,9 +155,17 @@ export function Home() {
                     <span>{ seconds[1] }</span>
                 </CountDownContainer>
 
-                <ButtonContainer disabled={isSubmitDisabled} type="submit">
-                    <Play size={24}/>
-                </ButtonContainer>
+                {
+                    activeCycle ? (
+                        <ButtonStopContainer onClick={handleInterruptCycle}  type="button">
+                            <HandPalm size={24}/>
+                        </ButtonStopContainer>
+                    ): (
+                        <ButtonStartContainer disabled={isSubmitDisabled} type="submit">
+                            <Play size={24}/>
+                        </ButtonStartContainer>
+                    )
+                }
 
             </form>
         </HomeContainer>
